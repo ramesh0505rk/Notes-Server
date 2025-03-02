@@ -7,8 +7,17 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="GraphQL" Version="8.4.1" />
+    <PackageReference Include="GraphQL.MicrosoftDI" Version="8.4.1" />
+    <PackageReference Include="GraphQL.Server.Transports.AspNetCore" Version="8.2.0" />
+    <PackageReference Include="GraphQL.Server.Ui.Playground" Version="8.2.0" />
+    <PackageReference Include="GraphQL.SystemTextJson" Version="8.4.1" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="9.0.2" />
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="9.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="GraphQL\Types\" />
   </ItemGroup>
 
 </Project>
