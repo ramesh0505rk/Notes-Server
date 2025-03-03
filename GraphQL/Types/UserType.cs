@@ -1,15 +1,14 @@
-﻿using GraphQL.Types;
-using NotesServer.Models;
+﻿using NotesServer.Models;
 
 namespace NotesServer.GraphQL.Types
 {
-    public class UserType : ObjectGraphType<User>
+    public class UserType : ObjectType<User>
     {
-        public UserType()
+        protected override void Configure(IObjectTypeDescriptor<User> descriptor)
         {
-            Field(x => x.UserId, type: typeof(IdGraphType)).Description("Id of the user");
-            Field(x => x.UserName).Description("Name of the user");
-            Field(x => x.UserEmail).Description("Email of the user");
+            descriptor.Field(x => x.UserId).Type<NonNullType<IdType>>().Description("Id of the user");
+            descriptor.Field(x => x.UserName).Type<NonNullType<StringType>>().Description("Name of the user");
+            descriptor.Field(x => x.UserEmail).Type<NonNullType<IdType>>().Description("Email of the user");
         }
     }
 }
