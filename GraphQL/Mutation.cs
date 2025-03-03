@@ -14,15 +14,17 @@ namespace NotesServer.GraphQL
             await connection.ExecuteAsync(query, parameters);
             return new User { UserId = UserId, UserName = UserName, UserEmail = UserEmail, };
         }
-        //public async Task<Note> AddNote(string UserId, string Title, string Content, [Service] DbContext context)
-        //{
-        //    //Guid NoteId = Guid.NewGuid();
-        //    //var query = "insert into Notes (NoteId,UserId,Title,Content) values (@NoteId,@UserId,@Title,@Content)";
-        //    //using var connection = context.CreateConnection();
-        //    //var parameters = new {NoteId=NoteId,UserId=UserId,Title=Title,Content=Content};
-        //    //await connection.ExecuteAsync(query, parameters);
-        //    //var createdDateTime = connection.QueryAsync("select ")
-        //    //return new Note { NoteId=NoteId,UserId=UserId,Title=Title,Content=Content,CreatedDate };
-        //}
+        public async Task<Note> AddNote(string UserId, string Title, string Content, [Service] DbContext context)
+        {
+            Guid NoteId = Guid.NewGuid();
+            var query = @"INSERT INTO Notes (NoteId, UserId, Title, Content) 
+                        OUTPUT INSERTED.CreatedDate
+                        VALUES (@NoteId, @UserId, @Title, @Content)";
+            using var connection = context.CreateConnection();
+            var parameters = new { NoteId = NoteId, UserId = UserId, Title = Title, Content = Content };
+            var createdDateTime = await connection.QuerySingleAsync<DateTime>(query, parameters);
+
+            return new Note { NoteId = NoteId, UserId = UserId, Title = Title, Content = Content, CreatedDate = createdDateTime };
+        }
     }
 }
