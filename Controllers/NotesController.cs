@@ -30,5 +30,18 @@ namespace NotesServer.Controllers
 
             return Ok(notes);
         }
+
+        [HttpDelete("{noteId}")]
+        public async Task<IActionResult> DeleteUserNote(string noteId)
+        {
+            var query = "delete from Notes where NoteId=@NoteId";
+            using var connection = _context.CreateConnection();
+            var affectedRows = await connection.ExecuteAsync(query, new { NoteId = noteId });
+            if (affectedRows == 0)
+            {
+                return NotFound(new { message = "Note not found or already deleted" });
+            }
+            return Ok(new { message = "Note deleted successfully" });
+        }
     }
 }

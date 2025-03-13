@@ -1,4 +1,5 @@
 ﻿using Dapper;
+using Microsoft.AspNetCore.Mvc;
 using NotesServer.Context;
 using NotesServer.Models;
 
@@ -26,5 +27,10 @@ namespace NotesServer.GraphQL
 
             return new Note { NoteId = NoteId, UserId = UserId, Title = Title, Content = Content, CreatedDate = createdDateTime };
         }
+        //public async Task<IActionResult> UpdateNote(string NoteId,string Title,string Content, [Service] DbContext context)
+        //{
+        //    var query = "update Notes set Title=@Title, Content=@Content, CreatedDate=@ModifiedDate from Notes where NoteId=@NoteId";
+
+        //}
     }
 }
