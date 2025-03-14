@@ -19,7 +19,7 @@ namespace NotesServer.Controllers
         [HttpGet("{userId}")]
         public async Task<IActionResult> GetUserNotes(string userId)
         {
-            var query = "select * from Notes where UserId=@UserId";
+            var query = "select * from Notes where UserId=@UserId order by CreatedDate";
             using var connection = _context.CreateConnection();
             var notes = await connection.QueryAsync<Note>(query, new { UserId = userId });
 
