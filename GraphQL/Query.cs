@@ -26,7 +26,7 @@ namespace NotesServer.GraphQL
         {
             var query = "select * from Notes where NoteId=@NoteId";
             using var connection = dbContext.CreateConnection();
-            var parameters = new { NoteId=NoteId };
+            var parameters = new { NoteId = NoteId };
             return await connection.QueryFirstAsync<Note>(query, parameters);
         }
 
@@ -35,6 +35,14 @@ namespace NotesServer.GraphQL
             var query = "select * from Users";
             using var connection = dbContext.CreateConnection();
             return await connection.QueryAsync<User>(query);
+        }
+
+        public async Task<IEnumerable<NoteTitle>> GetNoteTitles(string userId, [Service] DbContext dbContext)
+        {
+            var query = "select Title from Notes where UserId=@UserId";
+            using var connection = dbContext.CreateConnection();
+            var parameters = new { UserId = userId };
+            return await connection.QueryAsync<NoteTitle>(query, parameters);
         }
     }
 }
