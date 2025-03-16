@@ -43,5 +43,14 @@ namespace NotesServer.Controllers
             }
             return Ok(new { message = "Note deleted successfully" });
         }
+        [HttpGet("count/{userId}")]
+        public async Task<IActionResult> GetUserNotesCount(string userId)
+        {
+            var query = "select count(*) from Notes where UserId=@UserId";
+            using var connection = _context.CreateConnection();
+            var parameters = new { UserId = userId };
+            int count = await connection.QuerySingleAsync<int>(query, parameters);
+            return Ok(count);
+        }
     }
 }

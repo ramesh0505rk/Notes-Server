@@ -44,5 +44,12 @@ namespace NotesServer.GraphQL
             var parameters = new { UserId = userId };
             return await connection.QueryAsync<NoteTitle>(query, parameters);
         }
+        public async Task<IEnumerable<Note>> GetNotesByTitle(string title, string userId, [Service] DbContext dbContext)
+        {
+            var query = "select * from Notes where Title=@Title and UserId=@UserId";
+            using var connection = dbContext.CreateConnection();
+            var parameters = new { Title = title, userid = userId };
+            return await connection.QueryAsync<Note>(query, parameters);
+        }
     }
 }
